@@ -1,0 +1,19 @@
+1) Import packing list data in batch and manage inventory data manually. 
+2) Input and track shipment records for each order. 
+3)Synchronize and update inventory data, order data, shipment data correspondingly. 
+4) In order to support return process, search and locate online order data and shipment data flexibly, 
+	according to few clues such as Ship City, Zip Code or Tracking number etc. 
+5) Manage warranty data for each order. 
+6) In order to improve our listing, compare prices of same items on Amazon and Newegg. 
+7) Conduct statistical analysis on sales record by category, duration and region, 
+	to grasp sales trends of products, and to predict future needs and improve purchasing process.
+	
+User requirement
+1. develop web system to replace inventory and sets mount check. 
+    and shown sales analysis data if possible.(Keira@4/4)
+2.add countable flag/status for parts considering wrong labeled parts. - qiyu 0428
+3.need to check part's inventory according to patch - warehouse 04282017
+4.defect mgmt, recording defect reported from customer/seft check/ -0515
+	need to manage defect type										-0515
+	(wrong labeled/dimension problem/leaking/according to return)-0515
+	to generate defects reports.-0515 tony

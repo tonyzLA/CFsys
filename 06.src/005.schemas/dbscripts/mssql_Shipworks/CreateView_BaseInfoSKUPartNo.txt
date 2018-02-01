@@ -1,0 +1,244 @@
+EXECUTE dbo.spSKUPartNums;
+version5=====================================
+USE ShipWorks;
+GO
+
+IF OBJECT_ID('BaseInfoSKUPartNo') IS NOT NULL
+    DROP VIEW dbo.BaseInfoSKUPartNo;
+GO
+
+Create VIEW dbo.BaseInfoSKUPartNo
+AS
+SELECT 
+    DISTINCT SKU, 
+    CASE
+    	WHEN CHARINDEX('/',TRANSPARTNO) > 0
+    		THEN LEFT(TRANSPARTNO,CHARINDEX('/',TRANSPARTNO) - 1)
+    	WHEN CHARINDEX('-',TRANSPARTNO) = (LEN(TRANSPARTNO) -1)
+    		THEN LEFT(TRANSPARTNO,CHARINDEX('-',TRANSPARTNO) - 1)
+    	ELSE TRANSPARTNO
+    END AS PartNO
+FROM dbo.TransInfoSKUPartNo;
+GO
+
+/*
+    	WHEN (LEN(TRANSPARTNO) - CHARINDEX('-',TRANSPARTNO)) > 0 AND (LEN(TRANSPARTNO) - CHARINDEX('-',TRANSPARTNO)) < 3 
+    		THEN LEFT(TRANSPARTNO,CHARINDEX('-',TRANSPARTNO) -1)
+*/
+
+USE ShipWorks;
+GO
+
+IF OBJECT_ID('TransInfoSKUPartNo') IS NOT NULL
+    DROP VIEW dbo.TransInfoSKUPartNo;
+GO
+
+
+CREATE VIEW dbo.TransInfoSKUPartNo
+AS
+SELECT 
+    DISTINCT SKU, 
+    StoreName,
+    Name AS ItemName,
+    Null AS ItemCategory,
+    Null AS SKUType,
+    Null AS BundleComponents,
+    CASE
+    	WHEN LEFT(SKU,9) = 'CFADVANCE' THEN RIGHT(SKU,LEN(SKU)-9)
+    	WHEN LEFT(SKU,7) = 'CAVA-VA' THEN RIGHT(SKU,LEN(SKU)-7)
+    	WHEN LEFT(SKU,7) = 'CECF-CA' THEN RIGHT(SKU,LEN(SKU)-7)
+    	WHEN LEFT(SKU,7) = 'CESA-SA' THEN RIGHT(SKU,LEN(SKU)-7)
+    	WHEN LEFT(SKU,7) = 'CWSU-SU' THEN RIGHT(SKU,LEN(SKU)-7)
+    	WHEN (LEFT(SKU,2) = 'MK' AND LEN(SKU) = 6) THEN RIGHT(SKU,4)
+        ELSE SKU
+    END AS TRANSPARTNO    
+FROM dbo.orderitem ori JOIN dbo.[order] ord
+                            ON ori.orderID = ord.orderID
+                        JOIN dbo.store sto
+                            ON ord.StoreID = sto.StoreID
+WHERE SKU <> '';
+GO
+
+
+
+version4=====================================
+USE ShipWorks;
+GO
+
+IF OBJECT_ID('BaseInfoSKUPartNo') IS NOT NULL
+    DROP VIEW dbo.BaseInfoSKUPartNo;
+GO
+
+Create VIEW dbo.BaseInfoSKUPartNo
+AS
+SELECT 
+    DISTINCT SKU, 
+    CASE
+    	WHEN CHARINDEX('/',TRANSPARTNO) > 0
+    		THEN LEFT(TRANSPARTNO,CHARINDEX('/',TRANSPARTNO) - 1)
+    	ELSE TRANSPARTNO
+    END AS PartNO
+FROM dbo.TransInfoSKUPartNo;
+GO
+
+/*
+    	WHEN (LEN(TRANSPARTNO) - CHARINDEX('-',TRANSPARTNO)) > 0 AND (LEN(TRANSPARTNO) - CHARINDEX('-',TRANSPARTNO)) < 3 
+    		THEN LEFT(TRANSPARTNO,CHARINDEX('-',TRANSPARTNO) -1)
+*/
+
+USE ShipWorks;
+GO
+
+IF OBJECT_ID('TransInfoSKUPartNo') IS NOT NULL
+    DROP VIEW dbo.TransInfoSKUPartNo;
+GO
+
+
+CREATE VIEW dbo.TransInfoSKUPartNo
+AS
+SELECT 
+    DISTINCT SKU, 
+    StoreName,
+    Name AS ItemName,
+    Null AS ItemCategory,
+    Null AS SKUType,
+    Null AS BundleComponents,
+    CASE
+    	WHEN LEFT(SKU,9) = 'CFADVANCE' THEN RIGHT(SKU,LEN(SKU)-9)
+    	WHEN LEFT(SKU,7) = 'CAVA-VA' THEN RIGHT(SKU,LEN(SKU)-7)
+    	WHEN LEFT(SKU,7) = 'CECF-CA' THEN RIGHT(SKU,LEN(SKU)-7)
+    	WHEN LEFT(SKU,7) = 'CESA-SA' THEN RIGHT(SKU,LEN(SKU)-7)
+    	WHEN LEFT(SKU,7) = 'CWSU-SU' THEN RIGHT(SKU,LEN(SKU)-7)
+    	WHEN (LEFT(SKU,2) = 'MK' AND LEN(SKU) = 6) THEN RIGHT(SKU,4)
+        ELSE SKU
+    END AS TRANSPARTNO    
+FROM dbo.orderitem ori JOIN dbo.[order] ord
+                            ON ori.orderID = ord.orderID
+                        JOIN dbo.store sto
+                            ON ord.StoreID = sto.StoreID
+WHERE SKU <> '';
+GO
+
+/*
+    	WHEN CHARINDEX('/',SKU) > 0 AND LEN(SKU) - CHARINDEX('/',SKU) < 3
+    		THEN LEFT(SKU,CHARINDEX('/',SKU)-1)
+    	WHEN CHARINDEX('-',SKU) > 0 AND LEN(SKU) - CHARINDEX('-',SKU) < 3 
+    		THEN LEFT(SKU,CHARINDEX('-',SKU) -1)
+*/
+version3=====================================
+USE ShipWorks;
+GO
+
+IF OBJECT_ID('BaseInfoSKUPartNo') IS NOT NULL
+    DROP VIEW dbo.BaseInfoSKUPartNo;
+GO
+
+Create VIEW dbo.BaseInfoSKUPartNo
+AS
+SELECT 
+    SKU, 
+    CASE
+    	WHEN CHARINDEX('/',TRANSPARTNO) > 0
+    		THEN LEFT(TRANSPARTNO,CHARINDEX('/',TRANSPARTNO) - 1)
+    	ELSE TRANSPARTNO
+    END AS PartNO
+FROM dbo.TransInfoSKUPartNo 
+WHERE SKU <> '';
+GO
+
+/*
+    	WHEN (LEN(TRANSPARTNO) - CHARINDEX('-',TRANSPARTNO)) > 0 AND (LEN(TRANSPARTNO) - CHARINDEX('-',TRANSPARTNO)) < 3 
+    		THEN LEFT(TRANSPARTNO,CHARINDEX('-',TRANSPARTNO) -1)
+*/
+
+USE ShipWorks;
+GO
+
+IF OBJECT_ID('TransInfoSKUPartNo') IS NOT NULL
+    DROP VIEW dbo.TransInfoSKUPartNo;
+GO
+
+
+CREATE VIEW dbo.TransInfoSKUPartNo
+AS
+SELECT 
+    DISTINCT SKU, 
+    StoreName,
+    Name AS ItemName,
+    Null AS ItemCategory,
+    Null AS SKUType,
+    Null AS BundleComponents,
+    CASE
+    	WHEN LEFT(SKU,9) = 'CFADVANCE' THEN RIGHT(SKU,LEN(SKU)-9)
+    	WHEN LEFT(SKU,7) = 'CAVA-VA' THEN RIGHT(SKU,LEN(SKU)-7)
+    	WHEN LEFT(SKU,7) = 'CECF-CA' THEN RIGHT(SKU,LEN(SKU)-7)
+    	WHEN LEFT(SKU,7) = 'CESA-SA' THEN RIGHT(SKU,LEN(SKU)-7)
+    	WHEN LEFT(SKU,7) = 'CWSU-SU' THEN RIGHT(SKU,LEN(SKU)-7)
+    	WHEN (LEFT(SKU,2) = 'MK' AND LEN(SKU) = 6) THEN RIGHT(SKU,4)
+        ELSE SKU
+    END AS TRANSPARTNO    
+FROM dbo.orderitem ori JOIN dbo.[order] ord
+                            ON ori.orderID = ord.orderID
+                        JOIN dbo.store sto
+                            ON ord.StoreID = sto.StoreID
+WHERE SKU <> '';
+GO
+
+/*
+    	WHEN CHARINDEX('/',SKU) > 0 AND LEN(SKU) - CHARINDEX('/',SKU) < 3
+    		THEN LEFT(SKU,CHARINDEX('/',SKU)-1)
+    	WHEN CHARINDEX('-',SKU) > 0 AND LEN(SKU) - CHARINDEX('-',SKU) < 3 
+    		THEN LEFT(SKU,CHARINDEX('-',SKU) -1)
+*/
+version2=====================================
+USE ShipWorks;
+GO
+
+IF OBJECT_ID('spSKUPartNums') IS NOT NULL
+    DROP PROCEDURE dbo.spSKUPartNums;
+GO
+
+CREATE PROCEDURE dbo.spSKUPartNums
+AS 
+SELECT 
+    DISTINCT SKU, RIGHT(SKU,LEN(SKU)-9) AS PARTNO
+FROM dbo.orderitem 
+WHERE LEFT(SKU,9) = 'CFADVANCE';
+GO
+
+version1=====================================
+USE ShipWorks;
+GO
+
+IF OBJECT_ID('spSKUPartNums') IS NOT NULL
+    DROP PROCEDURE dbo.spSKUPartNums;
+GO
+
+CREATE PROCEDURE dbo.spSKUPartNums
+AS 
+DECLARE @SKU nvarchar(50);
+DECLARE @PartNum nvarchar(35);
+DECLARE SKU_cursor CURSOR FOR
+    SELECT distinct SKU
+    FROM dbo.orderitem 
+    WHERE SKU <> ''
+    ORDER BY SKU;
+
+OPEN SKU_cursor
+
+FETCH NEXT FROM SKU_cursor
+INTO @SKU;
+
+WHILE @@FETCH_STATUS = 0
+BEGIN
+    PRINT @SKU, @SKU;
+    
+    FETCH NEXT FROM SKU_cursor
+    INTO @SKU;
+END
+
+CLOSE SKU_cursor;
+DEALLOCATE SKU_cursor;  
+GO
+
+=====================================
